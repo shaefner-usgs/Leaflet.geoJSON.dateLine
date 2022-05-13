@@ -1,6 +1,6 @@
 /**
  * This class extends L.GeoJSON to plot point data on both sides of the
- * International Date Line the same time.
+ * International Date Line at the same time.
  */
 (function (factory) {
   if (typeof define === 'function' && define.amd) {
