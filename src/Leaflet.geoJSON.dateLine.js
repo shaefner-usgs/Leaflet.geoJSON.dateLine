@@ -18,14 +18,14 @@
   }
 }(function (L) {
   L.GeoJSON.DateLine = L.GeoJSON.extend({
-    onAdd: function () {
-      this._map.on('moveend viewreset', this._render, this);
+    onAdd: function (map) {
+      map.on('moveend viewreset', this._render, this);
 
       this._render();
     },
 
-    onRemove: function () {
-      this._map.off('moveend viewreset', this._render, this);
+    onRemove: function (map) {
+      map.off('moveend viewreset', this._render, this);
 
       this.eachLayer(marker => {
         if (this._map.hasLayer(marker)) {
