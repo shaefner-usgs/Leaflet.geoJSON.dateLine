@@ -28,8 +28,8 @@
       map.off('moveend viewreset', this._render, this);
 
       this.eachLayer(marker => {
-        if (this._map.hasLayer(marker)) {
-          this._map.removeLayer(marker);
+        if (map.hasLayer(marker)) {
+          map.removeLayer(marker);
         }
       });
     },
