@@ -18,6 +18,11 @@
   }
 }(function (L) {
   L.GeoJSON.DateLine = L.GeoJSON.extend({
+
+    // --------------------------------------------------
+    // Override onAdd, onRemove methods from L.LayerGroup
+    // --------------------------------------------------
+
     onAdd: function (map) {
       map.on('moveend viewreset', this._render, this);
 
@@ -34,10 +39,19 @@
       });
     },
 
+    /**
+     * Get the map's center.
+     *
+     * @return {Number}
+     *     longitude value of map's center
+     */
     _getCenter: function () {
       return this._map.getCenter().lng;
     },
 
+    /**
+     * Render the markers.
+     */
     _render: function () {
       var center = this._getCenter(),
           options = {
@@ -54,18 +68,29 @@
       });
     },
 
+    /**
+     * Update the given marker's position to be rendered in the visible map
+     * area, accounting for copies of "wrapping" maps.
+     *
+     * @param marker {L.Marker}
+     * @param options {Object}
+     */
     _update: function (marker, options) {
-      var latLng = marker.getLatLng();
+      var status,
+          latLng = marker.getLatLng();
 
-      // set marker within view, accounting for copies of "wrapping" maps
       while (latLng.lng <= options.min) {
         latLng.lng += 360;
+        status = 'updated';
       }
       while (latLng.lng > options.max) {
         latLng.lng -= 360;
+        status = 'updated';
       }
 
-      marker.setLatLng([latLng.lat, latLng.lng]);
+      if (status === 'updated') {
+        marker.setLatLng([latLng.lat, latLng.lng]);
+      }
     }
   });
 
