@@ -89,7 +89,7 @@
       }
 
       if (status === 'updated') {
-        marker.setLatLng([latLng.lat, latLng.lng]);
+        marker.setLatLng(latLng);
       }
     }
   });
