@@ -18,17 +18,18 @@
   }
 }(function (L) {
   L.GeoJSON.DateLine = L.GeoJSON.extend({
-
-    // --------------------------------------------------
-    // Override onAdd, onRemove methods from L.LayerGroup
-    // --------------------------------------------------
-
+    /**
+     * Override onAdd from L.LayerGroup
+     */
     onAdd: function (map) {
       map.on('moveend viewreset', this._render, this);
 
       this._render();
     },
 
+    /**
+     * Override onRemove from L.LayerGroup
+     */
     onRemove: function (map) {
       map.off('moveend viewreset', this._render, this);
 
@@ -50,7 +51,7 @@
     },
 
     /**
-     * Render the markers.
+     * Render the markers on both sides of the IDL.
      */
     _render: function () {
       var center = this._getCenter(),
