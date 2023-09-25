@@ -17,9 +17,19 @@
     factory(window.L);
   }
 }(function (L) {
-  L.GeoJSON.DateLine = L.GeoJSON.extend({
     /**
-     * Override onAdd from L.LayerGroup
+     * Override addLayer from L.FeatureGroup.
+     */
+    addLayer: function (layer) {
+      L.FeatureGroup.prototype.addLayer.call(this, layer);
+
+      if (this._map) {
+        this._render(); // ensure initial render plots on both sides of IDL
+      }
+    },
+
+    /**
+     * Override onAdd from L.LayerGroup.
      */
     onAdd: function (map) {
       map.on('moveend viewreset', this._render, this);
@@ -28,7 +38,7 @@
     },
 
     /**
-     * Override onRemove from L.LayerGroup
+     * Override onRemove from L.LayerGroup.
      */
     onRemove: function (map) {
       map.off('moveend viewreset', this._render, this);
