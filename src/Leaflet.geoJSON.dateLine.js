@@ -17,6 +17,7 @@
     factory(window.L);
   }
 }(function (L) {
+  L.GeoJSON.DateLine = L.GeoJSON.extend({
     /**
      * Override addLayer from L.FeatureGroup.
      */
