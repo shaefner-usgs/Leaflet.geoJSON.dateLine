@@ -44,9 +44,9 @@
     onRemove: function (map) {
       map.off('moveend viewreset', this._render, this);
 
-      this.eachLayer(marker => {
-        if (map.hasLayer(marker)) {
-          map.removeLayer(marker);
+      this.eachLayer(layer => {
+        if (map.hasLayer(layer)) {
+          map.removeLayer(layer);
         }
       });
     },
@@ -71,11 +71,11 @@
             min: center - 180
           };
 
-      this.eachLayer(marker => {
-        this._update(marker, options);
+      this.eachLayer(layer => {
+        this._update(layer, options);
 
-        if (!this._map.hasLayer(marker)) {
-          this._map.addLayer(marker);
+        if (!this._map.hasLayer(layer)) {
+          this._map.addLayer(layer);
         }
       });
     },
@@ -84,12 +84,15 @@
      * Update the given marker's position to be rendered in the visible map
      * area, accounting for copies of "wrapping" maps.
      *
-     * @param marker {L.Marker}
+     * @param layer {L.Layer}
      * @param options {Object}
      */
-    _update: function (marker, options) {
-      var status,
-          latLng = marker.getLatLng();
+    _update: function (layer, options) {
+      var latLng, status;
+
+      if (layer.feature.geometry.type !== 'Point') return; // only update markers
+          
+      latLng = layer.getLatLng();
 
       while (latLng.lng <= options.min) {
         latLng.lng += 360;
@@ -101,7 +104,7 @@
       }
 
       if (status === 'updated') {
-        marker.setLatLng(latLng);
+        layer.setLatLng(latLng);
       }
     }
   });
